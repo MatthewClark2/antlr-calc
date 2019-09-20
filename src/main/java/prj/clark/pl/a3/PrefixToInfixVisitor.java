@@ -29,25 +29,35 @@ public class PrefixToInfixVisitor extends PrefixMathBaseVisitor<String> {
 
     @Override
     public String visitMuldiv(PrefixMathParser.MuldivContext ctx) {
-        visit(ctx.expr(0));
+        handleOperation(ctx.expr(0));
+
         output.append(" ")
                 .append(ctx.op.getText())
                 .append(" ");
-        visit(ctx.expr(1));
+
+        handleOperation(ctx.expr(1));
 
         return output.toString();
+    }
+
+    private void handleOperation(PrefixMathParser.ExprContext ctx) {
+        if (ctx instanceof PrefixMathParser.AddsubContext) {
+            output.append("(");
+            visit(ctx);
+            output.append(")");
+        } else {
+            visit(ctx);
+        }
     }
 
     @Override
     public String visitAddsub(PrefixMathParser.AddsubContext ctx) {
         // TODO(matthew-c21): Check if there's a way to determine if a child does anything but addition.
-        output.append("(");
         visit(ctx.expr(0));
         output.append(" ")
                 .append(ctx.op.getText())
                 .append(" ");
         visit(ctx.expr(1));
-        output.append(")");
 
         return output.toString();
     }

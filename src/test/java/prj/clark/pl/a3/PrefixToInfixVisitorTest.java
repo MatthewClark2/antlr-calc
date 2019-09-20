@@ -35,6 +35,7 @@ public class PrefixToInfixVisitorTest {
         assertEquals("(1 + 3) * 2", p2i("* + 1 3 2"));
     }
 
+    @Ignore
     @Test
     public void stackedExpressions() {
         assertEquals("((1 + 2) - 3) / 4 * 5", p2i("* / - + 1 2 3 4 5"));
@@ -44,6 +45,11 @@ public class PrefixToInfixVisitorTest {
     @Test
     public void multipleLines() {
         assertEquals("a = b\n(b + 10)\n(c / 2 + 3)", p2i("= a b\n+ b 10\n+ / c 2 3"));
+    }
+
+    @Test
+    public void fixedStackedExpressions() {
+        assertEquals("(1 + 2 - 3) / 4 * 5", p2i("* / - + 1 2 3 4 5"));
     }
 
     @Test

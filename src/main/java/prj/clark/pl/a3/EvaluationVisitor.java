@@ -69,7 +69,7 @@ public class EvaluationVisitor extends MathBaseVisitor<Double> {
     }
 
     @Override
-    public Double visitInt(MathParser.IntContext ctx) {
+    public Double visitNum(MathParser.NumContext ctx) {
         return Double.valueOf(ctx.getText());
     }
 

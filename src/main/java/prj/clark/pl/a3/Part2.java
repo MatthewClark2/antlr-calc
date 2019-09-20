@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.IOException;
 
-public class PrefixMain {
+public class Part2 {
     public static void main(String[] args) throws IOException {
         CharStream cs = CharStreams.fromFileName("data/test.math");
         MathLexer lex = new MathLexer(cs);

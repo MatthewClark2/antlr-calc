@@ -1,55 +1,54 @@
 package prj.clark.pl.a3;
 
 
-import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EvaluationVisitor extends MathBaseVisitor<Integer> {
-    private OutputStreamWriter osw;
-    private Map<String, Integer> variables;
+public class EvaluationVisitor extends MathBaseVisitor<Double> {
+    private PrintStream out;
+    private Map<String, Double> variables;
 
     public EvaluationVisitor() {
         this(System.out);
     }
 
     public EvaluationVisitor(OutputStream os) {
-        this.osw = new OutputStreamWriter(os);
+        this(new PrintStream(os));
+    }
+
+    public EvaluationVisitor(PrintStream out) {
+        this.out = out;
         variables = new HashMap<>();
     }
 
     @Override
-    public Integer visitAssignment(MathParser.AssignmentContext ctx) {
+    public Double visitAssignment(MathParser.AssignmentContext ctx) {
         String id = ctx.ID().getText();
-        int val = visit(ctx.expr());
+        double val = visit(ctx.expr());
         variables.put(id, val);
         return val;
     }
 
     @Override
-    public Integer visitPrint(MathParser.PrintContext ctx) {
-        int val = visit(ctx.expr());
+    public Double visitPrint(MathParser.PrintContext ctx) {
+        double val = visit(ctx.expr());
 
-        try {
-            osw.write(val);
-        } catch (IOException e) {
-            throw new RuntimeException(e);  // God bless Java's checked exceptions /s.
-        }
+        out.println(val);
 
         return val;
     }
 
     @Override
-    public Integer visitParen(MathParser.ParenContext ctx) {
+    public Double visitParen(MathParser.ParenContext ctx) {
         return visit(ctx.expr());
     }
 
     @Override
-    public Integer visitAddsub(MathParser.AddsubContext ctx) {
-        int left = visit(ctx.expr(0));
-        int right = visit(ctx.expr(1));
+    public Double visitAddsub(MathParser.AddsubContext ctx) {
+        double left = visit(ctx.expr(0));
+        double right = visit(ctx.expr(1));
 
         if (ctx.ADD() != null) {
             return left + right;
@@ -59,7 +58,7 @@ public class EvaluationVisitor extends MathBaseVisitor<Integer> {
     }
 
     @Override
-    public Integer visitId(MathParser.IdContext ctx) {
+    public Double visitId(MathParser.IdContext ctx) {
         String id = ctx.getText();
 
         if (variables.containsKey(id)) {
@@ -70,14 +69,14 @@ public class EvaluationVisitor extends MathBaseVisitor<Integer> {
     }
 
     @Override
-    public Integer visitInt(MathParser.IntContext ctx) {
-        return Integer.valueOf(ctx.getText());
+    public Double visitInt(MathParser.IntContext ctx) {
+        return Double.valueOf(ctx.getText());
     }
 
     @Override
-    public Integer visitMuldiv(MathParser.MuldivContext ctx) {
-        int left = visit(ctx.expr(0));
-        int right = visit(ctx.expr(1));
+    public Double visitMuldiv(MathParser.MuldivContext ctx) {
+        double left = visit(ctx.expr(0));
+        double right = visit(ctx.expr(1));
 
         if (ctx.MUL() != null) {
             return left * right;

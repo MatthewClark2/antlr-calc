@@ -1,0 +1,41 @@
+grammar Math;
+
+@header {
+package prj.clark.pl.a3;
+}
+
+file: stmt+ ;
+
+stmt:
+    ID ASSIGN expr NEWLINE  # assignment
+    | expr NEWLINE          # print
+    | NEWLINE               # empty
+    ;
+
+expr:
+    LPAR expr RPAR              # paren
+    | expr op=(MUL | DIV) expr  # muldiv
+    | expr op=(ADD | SUB) expr  # addsub
+    | INT                       # int
+    | ID                        # id
+    ;
+
+
+fragment DIGIT: [0-9];
+fragment ID_START: [a-zA-Z_] ;
+fragment ID_PART: ID_START | DIGIT ;
+
+ID: ID_START ID_PART* ;
+INT: DIGIT+;
+
+MUL: '*' ;
+DIV: '/' ;
+ADD: '+' ;
+SUB: '-' ;
+
+ASSIGN: '=' ;
+LPAR: '(' ;
+RPAR: ')' ;
+
+NEWLINE: '\n' ;
+WS: [ \t] -> skip ;

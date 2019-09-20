@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'antlr'
+    id 'idea'
+}
+
+group 'prj.clark.pl.a3'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    antlr group: 'org.antlr', name: 'antlr4', version: '4.7.2'
+    compile group: 'org.antlr', name: 'antlr4-runtime', version: '4.7.2'
+}
+
+generateGrammarSource {
+    outputDirectory = new File('generated-src/main/antlr/java/prj/clark/pl/a3/')
+    arguments += ["-visitor", "-long-messages"]
+}
+
+sourceSets.main.java.srcDir new File('generated-src/main/antlr/java/')
+
+clean {
+    delete 'generated-src'
+}
+
+idea {
+    module {
+        sourceDirs += file('generated-src/antlr/java')
+    }
+}

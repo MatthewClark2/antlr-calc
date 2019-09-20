@@ -1,5 +1,8 @@
 package prj.clark.pl.a3;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+
 import java.util.*;
 
 public final class A3Utils {
@@ -36,6 +39,18 @@ public final class A3Utils {
         }
 
         return new Config(files, flags);
+    }
+
+    public static void executeInfix(CharStream cs, Map<String, MathVisitor> visitorMap) {
+        MathLexer lex = new MathLexer(cs);
+        CommonTokenStream cts = new CommonTokenStream(lex);
+        MathParser parse = new MathParser(cts);
+
+        for (Map.Entry<String, MathVisitor> entry : visitorMap.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue().visit(parse.file()));
+            parse.reset();
+        }
     }
 
     private static Map<String, Boolean> getDefaultFlags() {

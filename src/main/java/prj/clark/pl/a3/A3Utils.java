@@ -48,7 +48,11 @@ public final class A3Utils {
 
         for (Map.Entry<String, MathVisitor> entry : visitorMap.entrySet()) {
             System.out.println(entry.getKey());
-            System.out.println(entry.getValue().visit(parse.file()));
+
+            MathVisitor visitor = entry.getValue();
+            visitor.visit(parse.file());
+            System.out.println(visitor);
+
             parse.reset();
         }
     }

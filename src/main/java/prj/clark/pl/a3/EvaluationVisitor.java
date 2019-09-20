@@ -1,26 +1,21 @@
 package prj.clark.pl.a3;
 
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EvaluationVisitor extends MathBaseVisitor<Double> {
-    private PrintStream out;
+    private StringBuilder output;
     private Map<String, Double> variables;
 
     public EvaluationVisitor() {
-        this(System.out);
-    }
-
-    public EvaluationVisitor(OutputStream os) {
-        this(new PrintStream(os));
-    }
-
-    public EvaluationVisitor(PrintStream out) {
-        this.out = out;
+        output = new StringBuilder();
         variables = new HashMap<>();
+    }
+
+    @Override
+    public String toString() {
+        return output.toString();
     }
 
     @Override
@@ -35,7 +30,8 @@ public class EvaluationVisitor extends MathBaseVisitor<Double> {
     public Double visitPrint(MathParser.PrintContext ctx) {
         double val = visit(ctx.expr());
 
-        out.println(val);
+        output.append(val)
+                .append("\n");
 
         return val;
     }

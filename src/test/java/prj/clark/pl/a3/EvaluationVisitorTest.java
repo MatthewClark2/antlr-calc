@@ -3,124 +3,113 @@ package prj.clark.pl.a3;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.junit.After;
 import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import static org.junit.Assert.*;
 
 public class EvaluationVisitorTest {
-    private ByteArrayOutputStream os;
-
     private static String floatVal(int val) {
         return String.valueOf((double) val);
     }
 
-    @After
-    public void tearDown() {
-        os = null;
-    }
-
-    private void init(String input) throws IOException {
+    private String eval(String input) {
         CharStream cs = CharStreams.fromString(input + "\n");
         MathLexer lex = new MathLexer(cs);
         CommonTokenStream cts = new CommonTokenStream(lex);
         MathParser parse = new MathParser(cts);
-
-        os = new ByteArrayOutputStream();
-        EvaluationVisitor eval = new EvaluationVisitor(os);
+        EvaluationVisitor eval = new EvaluationVisitor();
 
         eval.visit(parse.file());
+
+        return eval.toString().trim();
     }
 
     @Test(expected = UnboundVariableException.class)
-    public void accessingUnboundVariableFails() throws IOException {
-        init("a");
+    public void accessingUnboundVariableFails() {
+        eval("a");
     }
 
     @Test
-    public void boundVariableUsable() throws IOException {
-        init("var = 10\nvar");
-        assertEquals(floatVal(10), os.toString().trim());
+    public void boundVariableUsable() {
+        String input = ("var = 10\nvar");
+        assertEquals(floatVal(10), eval(input));
     }
 
     @Test
-    public void literalPrintedCorrectly() throws IOException {
-        init("2");
-        assertEquals(floatVal(2), os.toString().trim());
+    public void literalPrintedCorrectly() {
+        String input = ("2");
+        assertEquals(floatVal(2), eval(input));
     }
 
     @Test
-    public void additionPrintedCorrectly() throws IOException {
-        init("3 + 7");
-        assertEquals(floatVal(10), os.toString().trim());
+    public void additionPrintedCorrectly() {
+        String input = ("3 + 7");
+        assertEquals(floatVal(10), eval(input));
     }
 
     @Test
-    public void subtractionPrintedCorrectly() throws IOException {
-        init("3 - 7");
-        assertEquals(floatVal(-4), os.toString().trim());
+    public void subtractionPrintedCorrectly() {
+        String input = ("3 - 7");
+        assertEquals(floatVal(-4), eval(input));
     }
 
     @Test
-    public void multiplicationPrintedCorrectly() throws IOException {
-        init("4 * 8");
-        assertEquals(floatVal(32), os.toString().trim());
+    public void multiplicationPrintedCorrectly() {
+        String input = ("4 * 8");
+        assertEquals(floatVal(32), eval(input));
     }
 
     @Test
-    public void divisionPrintedCorrectly() throws IOException {
-        init("4 / 8");
-        assertEquals(String.valueOf(0.5), os.toString().trim());
+    public void divisionPrintedCorrectly() {
+        String input = ("4 / 8");
+        assertEquals(String.valueOf(0.5), eval(input));
     }
 
     @Test
-    public void orderOfOperationsRespected() throws IOException {
-        init("1 + 3 * 2");
-        assertEquals(floatVal(7), os.toString().trim());
+    public void orderOfOperationsRespected() {
+        String input = ("1 + 3 * 2");
+        assertEquals(floatVal(7), eval(input));
     }
 
     @Test
-    public void parenthesesRespected() throws IOException {
-        init("(1 + 3) * 2");
-        assertEquals(floatVal(8), os.toString().trim());
+    public void parenthesesRespected() {
+        String input = ("(1 + 3) * 2");
+        assertEquals(floatVal(8), eval(input));
     }
 
     @Test
-    public void multiLineTest() throws IOException {
-        init("a = 1\n" +
+    public void multiLineTest() {
+        String input = ("a = 1\n" +
                 "b = 2\n" +
                 "c = a - b\n" +
                 "a * 3 + c\n" +
                 "b / c");
 
-        assertEquals(floatVal(2) + "\n" + floatVal(-2), os.toString().trim());
+        assertEquals(floatVal(2) + "\n" + floatVal(-2), eval(input));
     }
 
     @Test
-    public void assignmentsDoNotPrint() throws IOException {
-        init("a = 11");
-        assertEquals("", os.toString());
+    public void assignmentsDoNotPrint() {
+        String input = ("a = 11");
+        assertEquals("", eval(input));
     }
 
     @Test
-    public void standardFloatValues() throws IOException {
-        init("a = 1.5\n" +
+    public void standardFloatValues() {
+        String input = ("a = 1.5\n" +
                 "b = .25\n" +
                 "a + b\n" +
                 "a - b\n");
 
-        assertEquals(1.75 +"\n" + 1.25, os.toString().trim());
+        assertEquals(1.75 +"\n" + 1.25, eval(input));
     }
 
     @Test
-    public void scientificNotation() throws IOException {
-        init("1e3\n" +
+    public void scientificNotation() {
+        String input = ("1e3\n" +
                 "2.5e-1\n" +
                 "4E+2");
 
-        assertEquals(1e3 + "\n" + 2.5e-1 + "\n" + 4e2, os.toString().trim());
+        assertEquals(1e3 + "\n" + 2.5e-1 + "\n" + 4e2, eval(input));
     }
 }

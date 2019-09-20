@@ -30,7 +30,7 @@ ID: ID_START ID_PART* ;
 INT: DIGIT+;
 
 fragment BASE_FLOAT: DIGIT* '.' DIGIT+ ;
-fragment EXP_FLOAT: ([1-9] | DIGIT? '.' DIGIT+) ('e'|'E') (ADD | SUB)? (BASE_FLOAT | INT) ;
+fragment EXP_FLOAT: ([1-9] | DIGIT? '.' DIGIT+) ('e'|'E') (ADD | SUB)? INT ;
 
 FLOAT: BASE_FLOAT | EXP_FLOAT ;
 

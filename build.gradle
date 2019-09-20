@@ -9,6 +9,11 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
+task eval(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = 'prj.clark.pl.a3.Main'
+}
+
 repositories {
     mavenCentral()
 }

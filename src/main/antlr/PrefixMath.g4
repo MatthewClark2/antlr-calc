@@ -15,8 +15,9 @@ stmt
     ;
 
 expr
-    : op=(MUL | DIV | ADD | SUB) expr expr  # operation
-    | SUB expr                              # negative
-    | (FLOAT | INT)                         # num
-    | ID                                    # id
+    : op=(MUL | DIV) expr expr  # muldiv
+    | op=(ADD | SUB) expr expr  # addsub
+    | SUB expr                  # negative
+    | (FLOAT | INT)             # num
+    | ID                        # id
     ;

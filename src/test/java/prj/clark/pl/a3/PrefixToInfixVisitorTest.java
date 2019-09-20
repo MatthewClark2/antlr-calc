@@ -41,6 +41,6 @@ public class PrefixToInfixVisitorTest {
 
     @Test
     public void multipleLines() {
-        assertEquals("a = b\nb + 10\nc / 2 + 3", p2i("= a b\n+ b 10\n+ / c 2 3"));
+        assertEquals("a = b\n(b + 10)\n(c / 2 + 3)", p2i("= a b\n+ b 10\n+ / c 2 3"));
     }
 }

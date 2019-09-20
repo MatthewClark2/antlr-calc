@@ -17,7 +17,7 @@ expr:
     | expr op=(MUL | DIV) expr  # muldiv
     | expr op=(ADD | SUB) expr  # addsub
     | SUB expr                  # negative
-    | (INT | FLOAT)             # num
+    | (FLOAT | INT)             # num
     | ID                        # id
     ;
 
@@ -26,13 +26,13 @@ fragment DIGIT: [0-9];
 fragment ID_START: [a-zA-Z_] ;
 fragment ID_PART: ID_START | DIGIT ;
 
-// TODO(matthew-c21): Replace ints with floats.
 ID: ID_START ID_PART* ;
 INT: DIGIT+;
 
 fragment BASE_FLOAT: DIGIT* '.' DIGIT+ ;
+fragment EXP_FLOAT: ([1-9] | DIGIT? '.' DIGIT+) ('e'|'E') (ADD | SUB)? (BASE_FLOAT | INT) ;
 
-FLOAT: BASE_FLOAT ;  // TODO(matthew-c21): Add scientific notation and limit floating point definition.
+FLOAT: BASE_FLOAT | EXP_FLOAT ;
 
 MUL: '*' ;
 DIV: '/' ;

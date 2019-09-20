@@ -9,14 +9,26 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-task eval(type: JavaExec) {
+task part1(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
-    main = 'prj.clark.pl.a3.Main'
+    main = 'prj.clark.pl.a3.Part1'
 }
 
-task prefix(type: JavaExec) {
+task part1WithStdin(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
-    main = 'prj.clark.pl.a3.PrefixMain'
+    main = 'prj.clark.pl.a3.Part1'
+    args += '--use-stdin'
+}
+
+task part2(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = 'prj.clark.pl.a3.Part2'
+}
+
+task part2WithStdin(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = 'prj.clark.pl.a3.Part2'
+    args += '--use-stdin'
 }
 
 repositories {

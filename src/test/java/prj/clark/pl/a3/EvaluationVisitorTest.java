@@ -104,4 +104,23 @@ public class EvaluationVisitorTest {
         init("a = 11");
         assertEquals("", os.toString());
     }
+
+    @Test
+    public void standardFloatValues() throws IOException {
+        init("a = 1.5\n" +
+                "b = .25\n" +
+                "a + b\n" +
+                "a - b\n");
+
+        assertEquals(1.75 +"\n" + 1.25, os.toString().trim());
+    }
+
+    @Test
+    public void scientificNotation() throws IOException {
+        init("1e3\n" +
+                "2.5e-1\n" +
+                "4E+2");
+
+        assertEquals(1e3 + "\n" + 2.5e-1 + "\n" + 4e2, os.toString().trim());
+    }
 }

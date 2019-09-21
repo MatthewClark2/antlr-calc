@@ -12,23 +12,19 @@ sourceCompatibility = 1.8
 task part1(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = 'prj.clark.pl.a3.Part1'
-}
 
-task part1WithStdin(type: JavaExec) {
-    classpath sourceSets.main.runtimeClasspath
-    main = 'prj.clark.pl.a3.Part1'
-    args += '--use-stdin'
+    if (project.hasProperty('prog_args')) {
+        args prog_args.split(",")
+    }
 }
 
 task part2(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = 'prj.clark.pl.a3.Part2'
-}
 
-task part2WithStdin(type: JavaExec) {
-    classpath sourceSets.main.runtimeClasspath
-    main = 'prj.clark.pl.a3.Part2'
-    args += '--use-stdin'
+    if (project.hasProperty('prog_args')) {
+        args prog_args.split(",")
+    }
 }
 
 repositories {

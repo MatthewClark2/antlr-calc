@@ -30,8 +30,8 @@ part [flag | file]*
 ```
 
 Available flags include
-* `--save-output`: save output of modified forms to disk. For data read from stdin, these files are _infix, _postfix, and _prefix. For data read from some file x, these are infix_$(x), postfix_$(x), and prefix_$(x)
-* `--use-stdin`: read a program from stdin rather than from files. If this flag is set, any provided files are ignored. The output may still be saved to disk.
+* `--save-output`: save output of modified forms to disk.
+* `--use-stdin`: read a program from stdin rather than from files. If this flag is set, any provided files are ignored.
 
 Any other argument not prefixed with `--` will be considered as a filename to be parsed.
 

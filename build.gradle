@@ -12,19 +12,13 @@ sourceCompatibility = 1.8
 task part1(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = 'prj.clark.pl.a3.Part1'
-
-    if (project.hasProperty('prog_args')) {
-        args prog_args.split(",")
-    }
+    standardInput = System.in
 }
 
 task part2(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = 'prj.clark.pl.a3.Part2'
-
-    if (project.hasProperty('prog_args')) {
-        args prog_args.split(",")
-    }
+    standardInput = System.in
 }
 
 repositories {

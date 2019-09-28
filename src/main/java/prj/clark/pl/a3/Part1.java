@@ -55,8 +55,8 @@ public class Part1 {
     private static Map<String, FileProducingVisitor> getVisitors(String filename) {
         Map<String, FileProducingVisitor> visitors = new HashMap<>();
         visitors.put("Execution", new FileProducingVisitor(new EvaluationVisitor()));
-        visitors.put("To Prefix", new FileProducingVisitor(new PrefixVisitor(), "prefixed_" + filename));
-        visitors.put("To Postfix", new FileProducingVisitor(new PostfixVisitor(), "postfixed_" + filename));
+        visitors.put("To Prefix", new FileProducingVisitor(new PrefixVisitor(), filename != null ? "prefixed_" + filename : null));
+        visitors.put("To Postfix", new FileProducingVisitor(new PostfixVisitor(), filename != null ? "postfixed_" + filename : null));
         return visitors;
     }
 }

@@ -27,7 +27,7 @@ $ ./gradlew part1
 to run with default arguments. If you'd like to parse your own files rather than the included test file, call it with
 
 ```bash
-$ ./gradlew part1 -Pprog_args="..."
+$ ./gradlew part1 --args="..."
 ```
 
 The command line arguments for both parts are relatively straightforward, and follow the format:
